@@ -67,7 +67,7 @@ if not exist "%RPC_BUILD_DIR%" (
 cd "%RPC_BUILD_DIR%"
 echo %FILE_N% Generating build...
 
-cmake .. -G "Visual Studio 16 2019" -A x64^
+cmake .. -G "Visual Studio 17 2022" -A x64^
         -DCMAKE_BUILD_TYPE=Release^
         -DRPCLIB_BUILD_EXAMPLES=OFF^
         -DCMAKE_CXX_FLAGS_RELEASE="/MD /MP"^
