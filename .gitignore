@@ -47,3 +47,10 @@ _out*
 _site
 core
 profiler.csv
+
+/Unreal/CarlaUE4/Plugins/RoadRunnerCarlaIntegration
+/Unreal/CarlaUE4/Plugins/RoadRunnerDatasmith
+/Unreal/CarlaUE4/Plugins/RoadRunnerImporter
+/Unreal/CarlaUE4/Plugins/RoadRunnerRuntime
+/Unreal/CarlaUE4/Win64
+/Unreal/CarlaUE4/Plugins/RoadRunnerSemanticSegmentation
