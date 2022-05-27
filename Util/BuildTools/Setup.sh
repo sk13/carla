@@ -184,8 +184,8 @@ for PY_VERSION in ${PY_VERSION_LIST[@]} ; do
     rm ${BOOST_PACKAGE_BASENAME}.tar.gz
 
     # Boost patch for exception handling
-    cp "${CARLA_BUILD_FOLDER}/../Util/BoostFiles/rational.hpp" "${BOOST_BASENAME}-install/include/boost/rational.hpp"
-    cp "${CARLA_BUILD_FOLDER}/../Util/BoostFiles/read.hpp" "${BOOST_BASENAME}-install/include/boost/geometry/io/wkt/read.hpp"
+    # cp "${CARLA_BUILD_FOLDER}/../Util/BoostFiles/rational.hpp" "${BOOST_BASENAME}-install/include/boost/rational.hpp"
+    # cp "${CARLA_BUILD_FOLDER}/../Util/BoostFiles/read.hpp" "${BOOST_BASENAME}-install/include/boost/geometry/io/wkt/read.hpp"
     # ---
 
     # Install boost dependencies
