@@ -5,7 +5,7 @@
 // For a copy, see <https://opensource.org/licenses/MIT>.
 
 #include "test.h"
-
+#include <atomic>
 #include <carla/RecurrentSharedFuture.h>
 #include <carla/ThreadGroup.h>
 
