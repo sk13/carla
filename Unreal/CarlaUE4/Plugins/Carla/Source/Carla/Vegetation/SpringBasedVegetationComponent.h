@@ -78,6 +78,12 @@ struct FSkeletonJoint
   FVector ExternalForces = FVector(0,0,0);
 };
 
+struct FJointCollision
+{
+  bool CanRest = true;
+  int Iteration = 1;
+};
+
 struct FJointProperties
 {
   float Mass = 0.0;
@@ -202,6 +208,8 @@ private:
       std::vector<FJointProperties>& JointPropertiesList);
   void SolveEquationOfMotion(std::vector<FJointProperties>& JointPropertiesList, float DeltaTime);
 
+  std::vector<FJointCollision> JointCollisionList;
+
   UPROPERTY(EditAnywhere, Category = "Spring Based Vegetation Component")
   USkeletalMeshComponent* SkeletalMesh;
 
@@ -233,6 +241,9 @@ private:
   float VerticalFallof = 0.1f;
 
   UPROPERTY(EditAnywhere, Category = "Spring Based Vegetation Component")
+  float RestFactor = 0.5f;
+  
+  UPROPERTY(EditAnywhere, Category = "Spring Based Vegetation Component")
   float DeltaTimeOverride = -1.f;
   
   UPROPERTY(EditAnywhere, Category = "Spring Based Vegetation Component")
@@ -249,6 +260,9 @@ private:
   float MinForceFactor = 0.01;
   UPROPERTY(EditAnywhere, Category = "Spring Based Vegetation Component")
   float LineTraceMaxDistance = 180.f;
+  UPROPERTY(EditAnywhere, Category = "Spring Based Vegetation Component")
+  float CapsuleRadius = 6.0f;
+
 public:
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spring Based Vegetation Component")
   FSkeletonHierarchy Skeleton;

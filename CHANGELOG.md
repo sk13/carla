@@ -1,5 +1,6 @@
 ## Latest
 
+  * Fixed bug in FrictionTrigger causing sometimes server segfault
   * Added attachment type "SpringArmGhost" for cinematic cameras but without doing the collision test.
   * Improved algorithm to move signals out of the road by computing the desired displacement direction.
   * Added `TrafficManager.vehicle_lane_offset(actor, offset)` and `TrafficManager.global_lane_offset(offset)` methods.
@@ -23,6 +24,7 @@
   * Python agents now accept a carla.Map and GlobalRoutePlanner instances as inputs, avoiding the need to recompute them.
   * Python agents now have a function to lane change.
   * Python agents now detect vehicle in adjacent lanes if invaded due to the offset.
+  * Fixed bug causing the python agents to sometimes not detect a blocking actor if there were severral actors around it.
   * Improved Python agents performance for large maps.
   * Fix a bug at `Map.get_topology()`, causing lanes with no successors to not be part of it.
   * Added new ConstantVelocityAgent
