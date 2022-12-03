@@ -24,6 +24,8 @@
 #include "GameFramework/SpectatorPawn.h"
 #include "GenericPlatform/GenericPlatformProcess.h"
 #include "Kismet/GameplayStatics.h"
+#include "Materials/MaterialParameterCollection.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 
@@ -325,6 +327,21 @@ void UCarlaEpisode::InitializeAtBeginPlay()
     UE_LOG(LogCarla, Error, TEXT("Can't find spectator!"));
   }
 
+  // material parameters collection
+  UMaterialParameterCollection *Collection = LoadObject<UMaterialParameterCollection>(nullptr, TEXT("/Game/Carla/Blueprints/Game/CarlaParameters.CarlaParameters"), nullptr, LOAD_None, nullptr);
+	if (Collection != nullptr)
+  {
+    MaterialParameters = World->GetParameterCollectionInstance(Collection);
+    if (MaterialParameters == nullptr)
+    {
+      UE_LOG(LogCarla, Error, TEXT("Can't find CarlaParameters instance!"));
+    }
+  }
+  else
+	{
+    UE_LOG(LogCarla, Error, TEXT("Can't find CarlaParameters asset!"));
+	}
+
   for (TActorIterator<ATrafficSignBase> It(World); It; ++It)
   {
     ATrafficSignBase *Actor = *It;
@@ -415,22 +432,22 @@ TPair<EActorSpawnResultStatus, FCarlaActor*> UCarlaEpisode::SpawnActorWithInfo(
   auto result = ActorDispatcher->SpawnActor(LocalTransform, thisActorDescription, DesiredId);
   if (result.Key == EActorSpawnResultStatus::Success && bIsPrimaryServer)
   {
-    GetFrameData().CreateRecorderEventAdd(
-        result.Value->GetActorId(),
-        static_cast<uint8_t>(result.Value->GetActorType()),
-        Transform,
-        std::move(thisActorDescription));
-  }
-  if (Recorder->IsEnabled())
-  {
-    if (result.Key == EActorSpawnResultStatus::Success)
+    if (Recorder->IsEnabled())
     {
       Recorder->CreateRecorderEventAdd(
         result.Value->GetActorId(),
         static_cast<uint8_t>(result.Value->GetActorType()),
         Transform,
-        std::move(thisActorDescription)
+        thisActorDescription
       );
+    }
+    if (bIsPrimaryServer)
+    {
+      GetFrameData().CreateRecorderEventAdd(
+          result.Value->GetActorId(),
+          static_cast<uint8_t>(result.Value->GetActorType()),
+          Transform,
+          std::move(thisActorDescription));
     }
   }
 

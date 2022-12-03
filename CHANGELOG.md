@@ -6,11 +6,13 @@
   * Added `TrafficManager.vehicle_lane_offset(actor, offset)` and `TrafficManager.global_lane_offset(offset)` methods.
   * Some of the warnings shown when building a map will now only be showing when debugging.
   * Fixed bug causing traffic signals at the end points of a road to sometimes create malformed waypoints.
+  * Fixed pedestrian skeleton frame, where sometimes it was draw displaced from the body
   * Fixed decals when importing maps. It was using other .json files found in other packages.
   * Added the speed limits for 100, 110 and 120 Km/h.
   * Fixing sensor destruction, now the stream and socket is succesfully destroyed.
   * Fixed bug at `Vehicle.get_traffic_light_state()` and `Vehicle.is_at_traffic_light()` causing vehicles to temporarily not lose the information of a traffic light if they moved away from it before it turned green.
   * Changed the height of the automatic spawn points, from 3m to only 0.5m
+  * Added pedestrian skeleton to the recorder, as additional data. They will replay with the exact pose.
   * Added multi-GPU feature. Now several servers (with dedicated GPU) can render sensors for the same simulation.
   * Fixed bug causing the `Vehicle.get_traffic_light_state()` function not notify about the green to yellow and yellow to red light state changes.
   * Fixed bug causing the `Vehicle.is_at_traffic_light()` function to return *false* if the traffic light was green.
@@ -47,6 +49,8 @@
   * Added post process effects for rainy and dusty weathers.
   * Switched data type of the dust storm weather parameter from bool to float.
   * Check for the version of the installed Clang compiler during build.
+  * Added API function to get direct access to the GBuffer textures of a sensor:
+    - `listen_to_gbuffer`: to set a callback for a specific GBuffer texture
 
 ## CARLA 0.9.13
 
