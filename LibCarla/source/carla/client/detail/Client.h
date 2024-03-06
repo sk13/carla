@@ -179,7 +179,8 @@ namespace detail {
         const rpc::ActorDescription &description,
         const geom::Transform &transform,
         rpc::ActorId parent,
-        rpc::AttachmentType attachment_type);
+        rpc::AttachmentType attachment_type,
+        const std::string& socket_name = "");
 
     bool DestroyActor(rpc::ActorId actor);
 
@@ -232,9 +233,42 @@ namespace detail {
         rpc::ActorId actor,
         const geom::Vector3D &vector);
 
+    geom::Transform GetActorComponentWorldTransform(
+        rpc::ActorId actor,
+        const std::string componentName);
+
+    geom::Transform GetActorComponentRelativeTransform(
+        rpc::ActorId actor,
+        const std::string componentName);
+
+    std::vector<geom::Transform> GetActorBoneWorldTransforms(
+        rpc::ActorId actor);
+    
+    std::vector<geom::Transform> GetActorBoneRelativeTransforms(
+        rpc::ActorId actor);
+
+    std::vector<std::string> GetActorComponentNames(
+        rpc::ActorId actor);         
+
+    std::vector<std::string> GetActorBoneNames(
+        rpc::ActorId actor);
+
+    std::vector<geom::Transform> GetActorSocketWorldTransforms(
+        rpc::ActorId actor);
+
+    std::vector<geom::Transform> GetActorSocketRelativeTransforms(
+        rpc::ActorId actor);
+
     void SetActorSimulatePhysics(
         rpc::ActorId actor,
         bool enabled);
+
+    void SetActorCollisions(
+        rpc::ActorId actor,
+        bool enabled);
+
+    void SetActorDead(
+        rpc::ActorId actor);
 
     void SetActorEnableGravity(
         rpc::ActorId actor,
@@ -362,6 +396,8 @@ namespace detail {
 
     void SetReplayerIgnoreHero(bool ignore_hero);
 
+    void SetReplayerIgnoreSpectator(bool ignore_spectator);
+
     void StopReplayer(bool keep_actors);
 
     void SubscribeToStream(
@@ -374,6 +410,12 @@ namespace detail {
         std::function<void(Buffer)> callback);
 
     void UnSubscribeFromStream(const streaming::Token &token);
+
+    void EnableForROS(const streaming::Token &token);
+
+    void DisableForROS(const streaming::Token &token);
+
+    bool IsEnabledForROS(const streaming::Token &token);
 
     void UnSubscribeFromGBuffer(
         rpc::ActorId ActorId,

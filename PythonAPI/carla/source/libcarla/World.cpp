@@ -11,6 +11,8 @@
 #include <carla/rpc/EnvironmentObject.h>
 #include <carla/rpc/ObjectLabel.h>
 
+#include <string>
+
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 namespace carla {
@@ -153,7 +155,7 @@ void export_world() {
   ;
 
   class_<cr::EpisodeSettings>("WorldSettings")
-    .def(init<bool, bool, double, bool, double, int, float, bool, float, float>(
+    .def(init<bool, bool, double, bool, double, int, float, bool, float, float, bool>(
         (arg("synchronous_mode")=false,
          arg("no_rendering_mode")=false,
          arg("fixed_delta_seconds")=0.0,
@@ -163,7 +165,8 @@ void export_world() {
          arg("max_culling_distance")=0.0f,
          arg("deterministic_ragdolls")=false,
          arg("tile_stream_distance")=3000.f,
-         arg("actor_active_distance")=2000.f)))
+         arg("actor_active_distance")=2000.f,
+         arg("spectator_as_ego")=true)))
     .def_readwrite("synchronous_mode", &cr::EpisodeSettings::synchronous_mode)
     .def_readwrite("no_rendering_mode", &cr::EpisodeSettings::no_rendering_mode)
     .def_readwrite("substepping", &cr::EpisodeSettings::substepping)
@@ -181,6 +184,7 @@ void export_world() {
         })
     .def_readwrite("tile_stream_distance", &cr::EpisodeSettings::tile_stream_distance)
     .def_readwrite("actor_active_distance", &cr::EpisodeSettings::actor_active_distance)
+    .def_readwrite("spectator_as_ego", &cr::EpisodeSettings::spectator_as_ego)
     .def("__eq__", &cr::EpisodeSettings::operator==)
     .def("__ne__", &cr::EpisodeSettings::operator!=)
     .def(self_ns::str(self_ns::self))
@@ -230,6 +234,7 @@ void export_world() {
     .value("Bicycle", cr::CityObjectLabel::Bicycle)
     .value("Bus", cr::CityObjectLabel::Bus)
     .value("Rider", cr::CityObjectLabel::Rider)
+    .value("Train", cr::CityObjectLabel::Train)
     .value("Any", cr::CityObjectLabel::Any)
   ;
 
@@ -290,15 +295,17 @@ void export_world() {
         const cc::ActorBlueprint &blueprint, \
         const cg::Transform &transform, \
         cc::Actor *parent, \
-        cr::AttachmentType attachment_type) { \
+        cr::AttachmentType attachment_type, \
+        const std::string& bone) { \
       carla::PythonUtil::ReleaseGIL unlock; \
-      return self.fn(blueprint, transform, parent, attachment_type); \
+      return self.fn(blueprint, transform, parent, attachment_type, bone); \
     }, \
     ( \
       arg("blueprint"), \
       arg("transform"), \
       arg("attach_to")=carla::SharedPtr<cc::Actor>(), \
-      arg("attachment_type")=cr::AttachmentType::Rigid)
+      arg("attachment_type")=cr::AttachmentType::Rigid, \
+      arg("bone")=std::string())
 
   class_<cc::World>("World", no_init)
     .add_property("id", &cc::World::GetId)

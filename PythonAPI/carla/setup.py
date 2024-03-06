@@ -55,13 +55,14 @@ def get_libcarla_extensions():
                 os.path.join(pwd, 'dependencies/lib/libxerces-c.a')]
             extra_link_args += ['-lz']
             extra_compile_args = [
-                '-isystem', 'dependencies/include/system', '-fPIC', '-std=c++14',
+                '-isystem', os.path.join(pwd, 'dependencies/include/system'), '-fPIC', '-std=c++14',
                 '-Werror', '-Wall', '-Wextra', '-Wpedantic', '-Wno-self-assign-overloaded',
                 '-Wdeprecated', '-Wno-shadow', '-Wuninitialized', '-Wunreachable-code',
                 '-Wpessimizing-move', '-Wold-style-cast', '-Wnull-dereference',
                 '-Wduplicate-enum', '-Wnon-virtual-dtor', '-Wheader-hygiene',
                 '-Wconversion', '-Wfloat-overflow-conversion',
-                '-DBOOST_ERROR_CODE_HEADER_ONLY', '-DLIBCARLA_WITH_PYTHON_SUPPORT'
+                '-DBOOST_ERROR_CODE_HEADER_ONLY', '-DLIBCARLA_WITH_PYTHON_SUPPORT',
+                '-stdlib=libstdc++'
             ]
             if is_rss_variant_enabled():
                 extra_compile_args += ['-DLIBCARLA_RSS_ENABLED']
@@ -76,6 +77,7 @@ def get_libcarla_extensions():
                 extra_link_args += [os.path.join(pwd, 'dependencies/lib/libad_physics.a')]
                 extra_link_args += [os.path.join(pwd, 'dependencies/lib/libad_map_opendrive_reader.a')]
                 extra_link_args += [os.path.join(pwd, 'dependencies/lib/libboost_program_options.a')]
+                extra_link_args += [os.path.join(pwd, 'dependencies/lib/libodrSpiral.a')]
                 extra_link_args += [os.path.join(pwd, 'dependencies/lib/libspdlog.a')]
                 extra_link_args += ['-lrt']
                 extra_link_args += ['-ltbb']
@@ -162,7 +164,7 @@ with open("README.md") as f:
 
 setup(
     name='carla',
-    version='0.9.13',
+    version='0.9.15',
     package_dir={'': 'source'},
     packages=['carla'],
     ext_modules=get_libcarla_extensions(),

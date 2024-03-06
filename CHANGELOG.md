@@ -1,13 +1,56 @@
-## Latest
+## Latest Changes
+ * Prevent from segfault on failing SignalReference identification when loading OpenDrive files
+ * Added vehicle doors to the recorder
+ * Added functions to get actor' components transform
+ * Added posibility to Digital Twins to work with local files (osm and xodr)
+ * Enable proper material merging for Building in Digital Twins
+ * Added functions to get actor' bones transforms
+ * Added functions to get actor' bones and components names
+ * Added functions to get actor' sockets transforms
+ * make PythonAPI Windows: Fixed incompatibility issue with Anaconda due `py` command.
+ * Fixed bug in python agents when vehicle list was empty causing a check on all vehicles (BasicAgent.py) and detected pedestrians as vehicles if no pedestrains are present (BehaviourAgent.py) 
 
+## CARLA 0.9.15
+
+  * Added Digital Twins feature version 0.1. Now you can create your own map based on OpenStreetMaps
+  * Added compatibility with SymReady Assets, using NVIDIA Omniverse
+  * Added new maps: Town13 (is a large map) and Town15
+  * The spectator will be used to load tiles and actor in Large Maps when no other actors with the rolename 'ego_vehicle' or 'hero' are present. Added the `spectator_as_ego` to the `carla.WorldSettings()` to allow users to disable this behavior.
+  * Add keyword arguments for `carla.TrafficManager` Python API functions
+  * Added build support for VS2022 and Ninja for LibCarla and osm2odr on Windows
+  * Added empty actor
+  * Restored gamma value to 2.2 instead of 2.4
+  * CarlaExporter tool now exports the box collider and convex collider of the object if it has one, otherwise the mesh
+  * Pedestrians with AI or in replayer are now faster around 10x. They have collisions disabled until they hit a vehicle.
+  * Added API function to avoid replaying the spectator
+    * `Client.set_replayer_ignore_spectator(bool)`
+    * `start_replaying.py` using flag `--move-spectator`
+  * Surface non-unity build mode by passing ARGS=--no-unity to make; allows IWYU-type errors to be unmasked and fixed.
+  * Added maps, vehicles, pedestrians and props catalogues to the documentation
+  * Collisions detected by the CollisionSensor no longer generate more than one event per frame.
+  * Added API function to load a map only if it is different from the current one.
+  * Fixed a bug in the TrafficManager causing vehicles that reached an ending lane to have abnormal behavior while lane changing.
+  * Fixed bug causing the TM's unstuck logic to incorrectly remove the vehicles in some situations.
+  * Fixed the extra data in Directx textures, so we need to copy row by row on Windows to remove extra bytes on images
+  * Fixed vertices of big meshes (more than 65k vertices) in CarlaExporter
+  * Fixed sensors to check for the stream to be ready (race condition)
+  * Fixed bug causing the `FPixelReader::SavePixelsToDisk(PixelData, FilePath)` function to crash due to pixel array not set correctly.
+  * Fixed segfaults in Python API due to incorrect GIL locking under Python 3.10.
+  * Fixed the import script, where could use any other TilesInfo.txt if the destination folder has many
+
+## CARLA 0.9.14
+
+  * Fixed tutorial for adding a sensor to CARLA.
   * Fixed bug in FrictionTrigger causing sometimes server segfault
   * Added attachment type "SpringArmGhost" for cinematic cameras but without doing the collision test.
   * Improved algorithm to move signals out of the road by computing the desired displacement direction.
   * Added `TrafficManager.vehicle_lane_offset(actor, offset)` and `TrafficManager.global_lane_offset(offset)` methods.
   * Some of the warnings shown when building a map will now only be showing when debugging.
+  * The ids for semantic segmentation has been modified to be the same as cityscapes (labels, ids and colors)
   * Fixed bug causing traffic signals at the end points of a road to sometimes create malformed waypoints.
   * Fixed pedestrian skeleton frame, where sometimes it was draw displaced from the body
   * Fixed decals when importing maps. It was using other .json files found in other packages.
+  * In multi-GPU mode some sensors now are forced to be created on the primary server always (ex. collision sensor)
   * Added the speed limits for 100, 110 and 120 Km/h.
   * Fixing sensor destruction, now the stream and socket is succesfully destroyed.
   * Fixed bug at `Vehicle.get_traffic_light_state()` and `Vehicle.is_at_traffic_light()` causing vehicles to temporarily not lose the information of a traffic light if they moved away from it before it turned green.
@@ -26,6 +69,7 @@
   * Python agents now accept a carla.Map and GlobalRoutePlanner instances as inputs, avoiding the need to recompute them.
   * Python agents now have a function to lane change.
   * Python agents now detect vehicle in adjacent lanes if invaded due to the offset.
+  * Python agents now have the offset exposed.
   * Fixed bug causing the python agents to sometimes not detect a blocking actor if there were severral actors around it.
   * Improved Python agents performance for large maps.
   * Fix a bug at `Map.get_topology()`, causing lanes with no successors to not be part of it.

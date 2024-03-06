@@ -8,6 +8,7 @@
 #include <atomic>
 #include <carla/RecurrentSharedFuture.h>
 #include <carla/ThreadGroup.h>
+#include <atomic>
 
 using namespace std::chrono_literals;
 
